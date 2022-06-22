@@ -28,12 +28,14 @@ const inputClassValid = `${inputClass}_valid`;
 
 const errorMessages = {
   emptyPhone: 'Введите телефон',
+  wrongPhone: 'Неверный телефон',
   uncheckedPolicy: 'Подтвердите соглашение конфиденциальности'
 };
 
-callMeButton.addEventListener('click', () => {
+callMeButton.addEventListener('click', async () => {
   popupOverlay.classList.toggle(popupOverlayClassActive);
   callMePopopup.classList.toggle(callMePopopupClassActive);
+  await popupPhoneElement.focus();
 });
 
 popupCloseButton.addEventListener('click', () => {
@@ -46,23 +48,30 @@ featuresButton.addEventListener('click', () => {
   featuresElement.classList.toggle(featuresClassActive);
 });
 
+popupOverlay.addEventListener('click', () => {
+  popupOverlay.classList.remove(popupOverlayClassActive);
+  callMePopopup.classList.remove(callMePopopupClassActive);
+  featuresElement.classList.remove(featuresClassActive);
+});
+
 popupPhoneElement.addEventListener('input', (e) => {
-  var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-  console.log(x);
-  let phoneArray;
+  let x = e.target.value.replace(/((?!\+)\D+)+/g, '').match(/^(\+7{0,2})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+  let phoneArray = '';
 
-  if (!x[2]) {
-    phoneArray = x[1]
+  if (x === null || !x[1]) {
+    phoneArray = '';
+  } else if (x[1] && !x[2]) {
+    phoneArray = `${x[1]}`;
+  } else if (x[1] && x[2] && !x[3]) {
+    phoneArray = `${x[1]} (${x[2]}`;
+  } else if (x[1] && x[2] && x[3] && !x[4]) {
+    phoneArray = `${x[1]} (${x[2]}) ${x[3]}`;
+  } else if (x[1] && x[2] && x[3] && x[4] && !x[5]) {
+    phoneArray = `${x[1]} (${x[2]}) ${x[3]}-${x[4]}`;
   } else {
-    phoneArray = '(' + x[1] + ') ' + x[2]
-    if (x[3]) {
-      phoneArray += '-' + x[3]
-    } else {
-      phoneArray += ''
-    }
+    phoneArray = `${x[1]} (${x[2]}) ${x[3]}-${x[4]}-${x[5]}`;
   }
-
-   e.target.value = phoneArray;
+  e.target.value = phoneArray;
 });
 
 form.addEventListener('submit', (e) => {
@@ -77,7 +86,11 @@ form.addEventListener('submit', (e) => {
     } else {
       switch (currentElement.id) {
         case 'call-me-phone':
-          setValidationClasses(currentElement, currentElementSiblings, inputClassError, inputClassValid);
+          if (!currentElement.value.replace(/((?!\+)\D+)+/g, '').match(/^(\+7{0,2}\d{10})/)) {
+            setValidationClasses(currentElement, currentElementSiblings, inputClassValid, inputClassError, 'wrong');
+          } else {
+            setValidationClasses(currentElement, currentElementSiblings, inputClassError, inputClassValid);
+          }
           break;
         case 'call-me-policy':
           if (!currentElement.checked) {
@@ -124,9 +137,21 @@ function setErrorMessage(curElLabel, curEl, errorType) {
     switch (curEl.id) {
       case "call-me-phone":
         curElLabel.textContent = errorMessages.emptyPhone;
+        curEl.focus();
         break;
       case "call-me-policy":
         curElLabel.textContent = errorMessages.uncheckedPolicy;
+        curEl.focus();
+        break;
+    }
+    return;
+  }
+  if (curElLabel.classList.contains(inputMessageClass) && errorType == 'wrong') {
+    curElLabel.classList.add(inputMessageClassActive);
+    switch (curEl.id) {
+      case "call-me-phone":
+        curElLabel.textContent = errorMessages.wrongPhone;
+        curEl.focus();
         break;
     }
     return;

@@ -9,6 +9,17 @@
   object-fit: cover;
   transform: translate(-50%, -50%) scale(1.001);
 }
+a,
+input,
+button {
+  transition: box-shadow $transition3;
+  box-shadow: 0 0 0 1px transparent;
+}
+*:focus {
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 0 0 2px $orange !important;
+}
 ._btn {
   color: $white;
   border: none;
@@ -59,7 +70,8 @@
     }
   }
   @media ($desktop-min) {
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $orange-hover;
 
       &:after {
@@ -74,7 +86,8 @@
     background-color: $green;
 
     @media ($desktop-min) {
-      &:hover {
+      &:hover,
+      &:focus {
         background-color: $green-hover;
       }
     }

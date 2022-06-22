@@ -1111,7 +1111,8 @@ body {
         margin-left: 22px;
       }
     }
-    &:hover {
+    &:hover,
+    &:focus {
       &:after {
         @media ($desktop-min) {
           transform: translateX(tovw(-3)) rotate(45deg);
@@ -1124,8 +1125,9 @@ body {
   }
   &__f-policy {
     opacity: 0;
+    width: 0;
+    height: 0;
     position: absolute;
-    visibility: hidden;
     @extend %f-policy;
   }
   &__f-policy-label {
@@ -1173,6 +1175,9 @@ body {
 
       %f-policy:checked ~ & {
         background-color: $orange;
+      }
+      %f-policy:focus ~ & {
+        box-shadow: 0 0 0 2px $orange;
       }
     }
     a {
