@@ -853,12 +853,12 @@ body {
     &:before {
       content: "";
       display: inline-block;
-      background: url("../images/circles.png") left center/100% auto no-repeat transparent;
+      background: url("../images/circles.png") tovw(-4) center/auto 100% repeat-x transparent;
       vertical-align: middle;
 
       @media ($desktop-min) {
         width: tovw(58);
-        height: tovw(10);
+        height: tovw(9);
         margin-right: tovw(16);
       }
       @media ($mobile-max) {

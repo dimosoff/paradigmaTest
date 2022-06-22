@@ -284,22 +284,22 @@ b:not(._fw600) {
   0% {
     box-shadow: 0 0 0 0 rgba(243, 129, 32, 0.2);
   }
-  10% {
+  6% {
     box-shadow: 0 0 0 6px rgba(243, 129, 32, 0.5);
   }
-  50% {
-    box-shadow: 0 0 0 0 rgba(243, 129, 32, 0.2);
+  20% {
+    box-shadow: 0 0 0 9px rgba(243, 129, 32, 0);
   }
 }
 @keyframes pulse-button {
   0% {
     box-shadow: 0 0 0 0 rgba(243, 129, 32, 0.2);
   }
-  10% {
+  6% {
     box-shadow: 0 0 0 6px rgba(243, 129, 32, 0.5);
   }
-  50% {
-    box-shadow: 0 0 0 0 rgba(243, 129, 32, 0.2);
+  20% {
+    box-shadow: 0 0 0 9px rgba(243, 129, 32, 0);
   }
 }
 body {
@@ -1160,13 +1160,13 @@ body {
 .b-content__additional:before {
   content: "";
   display: inline-block;
-  background: url("../images/circles.png") left center/100% auto no-repeat transparent;
+  background: url("../images/circles.png") -0.2083333333vw center/auto 100% repeat-x transparent;
   vertical-align: middle;
 }
 @media (min-width: 992px) {
   .b-content__additional:before {
     width: 3.0208333333vw;
-    height: 0.5208333333vw;
+    height: 0.46875vw;
     margin-right: 0.8333333333vw;
   }
 }
